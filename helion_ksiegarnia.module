@@ -154,11 +154,12 @@ function helion_ksiegarnia_lista_ksiazek($typ, $wydawnictwo) {
 
             if (!isset($searchParams) || isset($searchParams3)) {
                 $patterns = preg_split("/(\s|\+)/", str_replace("szukaj-", "", addslashes(arg(2))));
-                $searchParams = 'AND (';
-                $searchParams .= _sqlSearchQueryBuilder($patterns, 'tytul', TRUE);
-                $searchParams .= " OR " . _sqlSearchQueryBuilder($patterns, 'autor', TRUE);
-                $searchParams .= " OR " . _sqlSearchQueryBuilder($patterns, 'opis', TRUE);
-                $searchParams .= ")";
+                    $searchParams = 'AND (';
+                    $searchParams .= _sqlSearchQueryBuilder($patterns, 'tytul', TRUE);
+                    $searchParams .= " OR " . _sqlSearchQueryBuilder($patterns, 'autor', TRUE);
+                    $searchParams .= " OR " . _sqlSearchQueryBuilder($patterns, 'opis', TRUE);
+                    $searchParams .= ")";
+                    
                 if (isset($searchParams3))
                     $searchParams .= $searchParams3;
             }
@@ -311,6 +312,10 @@ function helion_ksiegarnia_lista_ksiazek($typ, $wydawnictwo) {
 /* LISTA KSIAZEK::END */
 
 function helion_ksiegarnia_init($wydawnictwo = '', $kategoria = '') {
+    
+    if ( arg(2) === "szukaj-" )
+        drupal_goto('ksiegarnia/' . variable_get('helion_ksiegarnia_podstawowa_ksiegarnia', 'helion'), array("absolute" => FALSE));
+    
     $contentFromDB = FALSE;
     if ($wydawnictwo != '') {
         global $user;

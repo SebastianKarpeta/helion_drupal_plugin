@@ -28,13 +28,13 @@ function _sqlSearchQueryBuilder($patterns, $field, $doNotUseWords = FALSE) {
     if ($doNotUseWords)
         $patterns = array(join(" ", $patterns));
 
-    $searchParams = '(';
-    foreach ($patterns as $pattern)
-        if (db_driver() == 'pgsql')
-            $searchParams .= "LOWER(" . $field . ") ~ '\\\m" . strtolower($pattern) . "\\\M' AND ";
-        else
-            $searchParams .= "LOWER(" . $field . ") REGEXP '" . strtolower($pattern) . "' AND ";
-
+    $searchParams = '('; 
+    foreach ($patterns as $pattern) {
+            if (db_driver() == 'pgsql')
+                $searchParams .= "LOWER(" . $field . ") ~ '\\\m" . strtolower($pattern) . "\\\M' AND ";
+            else
+                $searchParams .= "LOWER(" . $field . ") REGEXP '" . strtolower($pattern) . "' AND ";
+    }
     $searchParams = rtrim($searchParams, "AND ") . ")";
     return $searchParams;
 }
